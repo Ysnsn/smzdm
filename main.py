@@ -46,7 +46,26 @@ class SMZDM_Bot(object):
             return msg.json()
         return msg.content
 
-
+def push_qq(msg):
+    """
+    推送消息到QQ酷推
+    """
+    if key == '':
+        print("[注意] 未提供key，推送！个🍗")
+    else:
+        server_url = f"https://qmsg.zendee.cn/send/{key}?"
+        params = {
+             "msg": msg
+        }
+      
+        response = requests.get(server_url, params=params)
+        json_data = response.json()
+        if json_data['reason'] == "操作成功":
+            print(f"推送成功")
+        else:
+            print(f" 推送失败:鬼知道哪错了")
+     
+        print("QQ酷推鬼知道修改成功没")    
 
 
 if __name__ == '__main__':
@@ -55,11 +74,14 @@ if __name__ == '__main__':
     cookies = os.environ["COOKIES"]
     sb.load_cookie_str(cookies)
     res = sb.checkin()
+    resp = "什么值得买每日签到\n" + res
     print(res)
     SERVERCHAN_SECRETKEY = os.environ["SERVERCHAN_SECRETKEY"]
+    key = os.environ["KEY"]
     print('sc_key: ', SERVERCHAN_SECRETKEY)
     if isinstance(SERVERCHAN_SECRETKEY,str) and len(SERVERCHAN_SECRETKEY)>0:
         print('检测到 SCKEY， 准备推送')
+        push_qq(resp))
         push_to_wechat(text = '什么值得买每日签到',
                         desp = str(res),
                         secretKey = SERVERCHAN_SECRETKEY)
