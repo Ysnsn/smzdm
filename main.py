@@ -74,14 +74,13 @@ if __name__ == '__main__':
     cookies = os.environ["COOKIES"]
     sb.load_cookie_str(cookies)
     res = sb.checkin()
-    resp = "什么值得买每日签到\n" + res
     print(res)
     SERVERCHAN_SECRETKEY = os.environ["SERVERCHAN_SECRETKEY"]
     key = os.environ["KEY"]
     print('sc_key: ', SERVERCHAN_SECRETKEY)
     if isinstance(SERVERCHAN_SECRETKEY,str) and len(SERVERCHAN_SECRETKEY)>0:
         print('检测到 SCKEY， 准备推送')
-        push_qq(resp)
+        push_qq(str(res))
         push_to_wechat(text = '什么值得买每日签到',
                         desp = str(res),
                         secretKey = SERVERCHAN_SECRETKEY)
